@@ -1,19 +1,20 @@
 <template>
   <div class="container">
+    <h4>LOCATEE BUILDING'S MAP</h4>
 <mapBuildings :buildings="buildings"></mapBuildings>
+<list :buildings="buildings"></list>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Vue from 'vue'
-
 import List from './list.vue'
 import mapBuildings from './mapBuildings.vue'
 
 
 export default {
-  name: 'HelloWorld',
+  name: 'indexLocatee',
   components: {
     List,
     mapBuildings
@@ -30,8 +31,6 @@ export default {
   methods: {
 
   },
-
- 
 
   mounted: function() {
     axios.all([
@@ -64,5 +63,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.h1 {
+  margin: 1rem auto;
+}
 
 </style>

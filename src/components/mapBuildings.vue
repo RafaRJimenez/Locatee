@@ -1,7 +1,5 @@
 <template>
 	<div class="container">
-	{{currentCenter}} {{currentZoom}}
-
 		<l-map
 		 @update:zoom="zoomUpdate"
 		 @update:center="centerUpdate"
@@ -28,9 +26,9 @@
 	export default {
 		data: function(){
 			return{
-				 zoom:3,
-      			 center: L.latLng(47.413220, -1.219482),
-      			 currentCenter: L.latLng(47.413220, -1.219482),
+				 zoom:2,
+      			 center: L.latLng(18.757243, 18.757243),
+      			 currentCenter: L.latLng(18.757243, 18.757243),
       			 currentZoom: 3,
      			 url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
      			 attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
