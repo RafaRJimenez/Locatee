@@ -1,113 +1,70 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="container">
+    <ul> 
+</ul>
+
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import Vue from 'vue'
+
+import List from './list.vue'
+import mapBuildings from './mapBuildings.vue'
+
+
 export default {
   name: 'HelloWorld',
+  components: {
+    List,
+    mapBuildings
+  },
+
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      buildings: [],
+      occupiedDesks: [],
+      totalDesks: [],
     }
+  },
+
+  methods: {
+
+  },
+
+ 
+
+  mounted: function() {
+    axios.all([
+    axios.get('../static/data/peakOfOccupiedDesksPerBuilding.json'),
+    axios.get('../static/data/buildings.json'),
+    axios.get('../static/data/totalDesksPerBuilding.json')
+  ])
+  .then(axios.spread((occupiedDesks, buildings, totalDesks) => {
+       this.occupiedDesks = occupiedDesks.data.stats;
+       this.buildings = buildings.data.buildings;
+       this.totalDesks = totalDesks.data.stats;
+       let self = this
+            self.buildings.map((building, index) => {
+                let totalDesks = self.totalDesks[index].value; // the index and id of Buildings.json and totalDesks.json coincide so we can get and set it directily through index
+                Vue.set(building, "totalDesks", totalDesks);
+                // In other hand Buildings.json id and occupiedDesks.json donn't coincide so we need to filter to find the proper id to attach the values
+                self.occupiedDesks.filter( desk => {
+                  if(desk.building.id === building.id){
+                  Vue.set(building, "occupiedDesks", desk.value);
+                    };
+                 });
+            });
+        console.log(this.buildings)
+  }));
+
+
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
