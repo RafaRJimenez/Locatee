@@ -2,7 +2,7 @@
   <div class="container">
     <ul> 
 </ul>
-
+<mapBuildings :buildings="buildings"></mapBuildings>
   </div>
 </template>
 
