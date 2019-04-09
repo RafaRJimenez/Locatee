@@ -1,12 +1,8 @@
 import { Icon }  from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-
-
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
-
 
 delete Icon.Default.prototype._getIconUrl;
 
